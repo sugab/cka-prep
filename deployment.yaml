@@ -20,3 +20,9 @@ spec:
         imagePullPolicy: Never
         ports:
         - containerPort: 8080
+        env:
+        - name: DEFAULT_MESSAGE
+          valueFrom:
+            configMapKeyRef:
+              name: simple-go-config
+              key: DEFAULT_MESSAGE
