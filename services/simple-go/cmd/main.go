@@ -5,17 +5,26 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 )
 
 type Response struct {
-	Message string `json:"message"`
+	Message string `json:"message,omitempty"`
+	Error   string `json:"error,omitempty"`
 }
 
 func main() {
+	// get default message from env
+	message := os.Getenv("DEFAULT_MESSAGE")
+	if message == "" {
+		// fallback message
+		message = "Success"
+	}
+
 	srv := http.NewServeMux()
 	srv.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		res := Response{
-			Message: "Success",
+			Message: message,
 		}
 
 		err := json.NewEncoder(w).Encode(res)
