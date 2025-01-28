@@ -1,6 +1,7 @@
 package main
 
 import (
+	"crypto/sha256"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -10,6 +11,7 @@ import (
 
 type Response struct {
 	Message string `json:"message,omitempty"`
+	Hash    string `json:"hash,omitempty"`
 }
 
 func main() {
@@ -22,8 +24,13 @@ func main() {
 
 	srv := http.NewServeMux()
 	srv.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		hasher := sha256.New()
+		hasher.Write([]byte(message))
+		hash := fmt.Sprintf("%x", hasher.Sum(nil))
+
 		res := Response{
 			Message: message,
+			Hash:    hash,
 		}
 
 		err := json.NewEncoder(w).Encode(res)
