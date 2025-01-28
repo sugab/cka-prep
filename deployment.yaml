@@ -18,6 +18,13 @@ spec:
       - name: server
         image: simple-go:latest
         imagePullPolicy: Never
+        resources:
+          requests:
+            memory: "16Mi"
+            cpu: "10m"
+          limits:
+            memory: "64Mi"
+            cpu: "30m"
         ports:
         - containerPort: 8080
         env:
