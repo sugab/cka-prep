@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: postgres-pv
+spec:
+  capacity:
+    storage: 1Gi  # 1GB Storage
+  accessModes:
+    - ReadWriteOnce  # Only one node can mount it at a time
+  persistentVolumeReclaimPolicy: Retain  # Keep data even if PVC is deleted
+  storageClassName: manual
+  hostPath:
+    path: "/mnt/data/postgresql"  # Local storage for Minikube
