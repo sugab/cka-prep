@@ -1,0 +1,7 @@
+CREATE DATABASE mydb;
+
+CREATE TABLE message
+(
+  id SERIAL PRIMARY KEY,
+  content TEXT DEFAULT ''
+)

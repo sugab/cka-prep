@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: simple-go
+  labels:
+    app: simple-go
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: simple-go
+  template:
+    metadata:
+      labels:
+        app: simple-go
+    spec:
+      containers:
+      - name: server
+        image: simple-go:v2
+        imagePullPolicy: Never
+        resources:
+          requests:
+            memory: "16Mi"
+            cpu: "10m"
+          limits:
+            memory: "64Mi"
+            cpu: "30m"
+        ports:
+        - containerPort: 8080
+        env:
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: POSTGRES_USER
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: POSTGRES_PASSWORD
