@@ -4,6 +4,10 @@ metadata:
   name: simple-ingress
 spec:
   ingressClassName: nginx
+  tls:
+  - hosts:
+    - simple-go.mine
+    secretName: simple-tls
   rules:
     - host: simple-go.mine
       http:
