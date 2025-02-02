@@ -5,6 +5,9 @@ metadata:
   annotations:
     nginx.ingress.kubernetes.io/limit-rps: "1"
     nginx.ingress.kubernetes.io/limit-burst-multiplier: "1"
+    nginx.ingress.kubernetes.io/auth-type: "basic"
+    nginx.ingress.kubernetes.io/auth-secret: "ingress-auth"
+    nginx.ingress.kubernetes.io/auth-realm: "Restricted Area"
 spec:
   ingressClassName: nginx
   tls:
