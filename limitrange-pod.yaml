@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: over-limit-pod
+  namespace: limited
+spec:
+  containers:
+  - name: over-limit-container
+    image: nginx
+    resources:
+      limits:
+        cpu: "1"  # Exceeds the 250m limit
+        memory: "512Mi"  # Exceeds the 128Mi limit
