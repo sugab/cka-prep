@@ -3,6 +3,7 @@ kind: Job
 metadata:
   name: postgres-backup
 spec:
+  ttlSecondsAfterFinished: 60
   template:
     spec:
       containers:
