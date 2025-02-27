@@ -1,0 +1,35 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: postgres-backup
+spec:
+  template:
+    spec:
+      containers:
+      - name: pg-backup
+        image: postgres:17
+        command: ["/bin/sh", "-c"]
+        args:
+        - |
+          echo "Starting PostgreSQL backup..."
+          pg_dump -h postgres.default.svc.cluster.local -d mydb > /backup/postgres_backup_$(date +%Y%m%d%H%M%S).sql
+          echo "Backup completed!"
+        env:
+        - name: PGUSER
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: POSTGRES_USER
+        - name: PGPASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: POSTGRES_PASSWORD
+        volumeMounts:
+        - mountPath: /backup
+          name: backup-storage
+      volumes:
+      - name: backup-storage
+        persistentVolumeClaim:
+          claimName: postgres-backup-pvc
+      restartPolicy: Never
