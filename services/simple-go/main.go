@@ -14,6 +14,8 @@ type Response struct {
 	Hash    string `json:"hash,omitempty"`
 }
 
+var status = true
+
 func main() {
 	// get default message from env
 	message := os.Getenv("DEFAULT_MESSAGE")
@@ -36,6 +38,13 @@ func main() {
 		err := json.NewEncoder(w).Encode(res)
 		if err != nil {
 			log.Fatal(err)
+		}
+	})
+	srv.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
+		if status {
+			w.WriteHeader(http.StatusOK)
+		} else {
+			w.WriteHeader(http.StatusInternalServerError)
 		}
 	})
 

@@ -33,3 +33,15 @@ spec:
             configMapKeyRef:
               name: simple-go-config
               key: DEFAULT_MESSAGE
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 10
