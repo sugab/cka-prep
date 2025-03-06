@@ -1,0 +1,22 @@
+apiVersion: k8s.nginx.org/v1
+kind: VirtualServer
+metadata:
+  name: my-app
+spec:
+  host: my-app.local
+  upstreams:
+  - name: my-app-v1
+    service: my-app-v1
+    port: 80
+  - name: my-app-v2
+    service: my-app-v2
+    port: 80
+  routes:
+  - path: "/"
+    splits:
+    - weight: 80
+      action:
+        pass: my-app-v1
+    - weight: 20
+      action:
+        pass: my-app-v2
